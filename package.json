@@ -1,0 +1,24 @@
+{
+  "name": "emily-bot-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "<popkirby@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google-cloud/vision": "^0.24.0",
+    "dotenv": "^6.2.0",
+    "fs-extra": "^7.0.1",
+    "loud-rejection": "^1.6.0",
+    "mustache": "^3.0.1",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-prettier": "^3.3.0",
+    "prettier": "^1.15.3"
+  }
+}
