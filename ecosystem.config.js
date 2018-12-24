@@ -16,10 +16,11 @@ module.exports = {
 
   deploy: {
     production: {
-      user: 'emily-bot',
-      host: '35.200.86.93',
+      user: process.env.USER_NAME,
+      host: process.env.HOST_NAME,
       ref: 'origin/master',
-      repo: 'git@github.com:popkirby/emily-bot-test.git',
+      repo: 'https://github.com/popkirby/emily-bot-test',
+      ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       path: '/home/emily-bot/deploy',
       'post-deploy':
         'yarn install && pm2 reload ecosystem.config.js --env production'
