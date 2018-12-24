@@ -22,13 +22,7 @@ const client = new Twitter({
 
 const botQueue = async.queue(async function(sourceTweet) {
   if (sourceTweet.text.includes(process.env.SUPPRESS_WORD)) {
-    return await tweet(
-      client,
-      createTweet('failure', {
-        screen_name: sourceTweet.user.screen_name,
-        in_reply_to_status_id: sourceTweet.id_str
-      })
-    )
+    return
   }
 
   let votedToEmily = false
