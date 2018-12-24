@@ -4,6 +4,7 @@ const didVotedToEmily = require('./lib/did-voted-to-emily')
 const tweet = require('./lib/tweet')
 const createTweet = require('./lib/create-tweet')
 const path = require('path')
+const checkTweetCount = require('./lib/check-tweet-count')
 
 require('dotenv').config({
   path:
@@ -30,6 +31,8 @@ const botQueue = async.queue(async function(sourceTweet) {
   }
 
   if (!votedToEmily) return
+
+  if (!(await checkTweetCount(sourceTweet.user.id_str))) return
 
   return await tweet(
     client,
