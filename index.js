@@ -25,6 +25,10 @@ const botQueue = async.queue(async function(sourceTweet) {
     return
   }
 
+  if (!(await checkTweetCount(sourceTweet.user.id_str))) {
+    return
+  }
+
   let votedToEmily = false
   if (sourceTweet.entities && sourceTweet.entities.media) {
     votedToEmily = sourceTweet.entities.media.some(
@@ -32,7 +36,7 @@ const botQueue = async.queue(async function(sourceTweet) {
     )
   }
 
-  if (!votedToEmily || !(await checkTweetCount(sourceTweet.user.id_str))) {
+  if (!votedToEmily) {
     return await tweet(
       client,
       createTweet('failure', {
