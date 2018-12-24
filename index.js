@@ -1,3 +1,10 @@
+require('dotenv').config({
+  path:
+    process.env.NODE_ENV === 'production'
+      ? '/home/emily-bot/vars'
+      : path.resolve(__dirname, '.env')
+})
+
 const Twitter = require('twitter')
 const async = require('async')
 const didVotedToEmily = require('./lib/did-voted-to-emily')
@@ -5,13 +12,6 @@ const tweet = require('./lib/tweet')
 const createTweet = require('./lib/create-tweet')
 const path = require('path')
 const checkTweetCount = require('./lib/check-tweet-count')
-
-require('dotenv').config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '/home/emily-bot/vars'
-      : path.resolve(__dirname, '.env')
-})
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
