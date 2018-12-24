@@ -13,7 +13,7 @@ jobs:
 
       - run:
           name: Install pm2
-          command: npm install -g pm2
+          command: sudo npm install -g pm2
 
       - run:
           name: deploy
