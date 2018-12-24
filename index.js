@@ -20,6 +20,8 @@ const client = new Twitter({
 })
 
 const botQueue = async.queue(async function(sourceTweet) {
+  if (sourceTweet.text.contains(process.env.SUPPRESS_WORD)) return
+
   let votedToEmily = false
   if (sourceTweet.entities && sourceTweet.entities.media) {
     votedToEmily = sourceTweet.entities.media.some(
