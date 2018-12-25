@@ -4,6 +4,10 @@ jobs:
     docker:
       - image: circleci/node:lts
 
+    branches:
+      only:
+        - master
+
     steps:
       - checkout
 
