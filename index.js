@@ -29,8 +29,8 @@ const botQueue = async.queue(async function(sourceTweet) {
   })
 
   if (
-    !sourceTweet.entities.hashtags.includes(
-      process.env.SUPPRESS_WORD.replace('#', '')
+    sourceTweet.entities.hashtags.some(hashtag =>
+      hashtag.text.includes(process.env.SUPPRESS_WORD.replace('#', ''))
     )
   ) {
     logger.info('tweet suppressed')
