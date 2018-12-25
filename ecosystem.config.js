@@ -23,7 +23,7 @@ module.exports = {
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       path: '/home/emily-bot/deploy',
       'post-deploy':
-        'yarn install && pm2 reload ecosystem.config.js --env production'
+        'yarn install --frozen-lockfile && pm2 reload ecosystem.config.js --env production'
     }
   }
 }

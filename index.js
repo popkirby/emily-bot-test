@@ -1,3 +1,5 @@
+const path = require('path')
+
 require('dotenv').config({
   path:
     process.env.NODE_ENV === 'production'
@@ -10,8 +12,8 @@ const async = require('async')
 const didVotedToEmily = require('./lib/did-voted-to-emily')
 const tweet = require('./lib/tweet')
 const createTweet = require('./lib/create-tweet')
-const path = require('path')
 const checkTweetCount = require('./lib/check-tweet-count')
+const logger = require('./lib/logger').child({ type: 'index' })
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -21,11 +23,28 @@ const client = new Twitter({
 })
 
 const botQueue = async.queue(async function(sourceTweet) {
-  if (sourceTweet.text.includes(process.env.SUPPRESS_WORD)) {
+  logger.info({
+    screen_name: sourceTweet.user.screen_name,
+    id: sourceTweet.id_str
+  })
+
+  if (
+    !sourceTweet.entities.hashtags.includes(
+      process.env.SUPPRESS_WORD.replace('#', '')
+    )
+  ) {
+    logger.info('tweet suppressed')
+    return
+  }
+
+  if (sourceTweet.retweeted_status == null) {
+    logger.info('retweeted')
     return
   }
 
   if (!(await checkTweetCount(sourceTweet.user.id_str))) {
+    logger.info('tweet >3 times')
+
     return
   }
 
@@ -68,7 +87,7 @@ function main() {
   })
 
   search.on('error', event => {
-    console.log(event)
+    logger.error(event, 'search failed')
   })
 }
 
