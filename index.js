@@ -37,7 +37,7 @@ const botQueue = async.queue(async function(sourceTweet) {
     return
   }
 
-  if (sourceTweet.retweeted_status == null) {
+  if (sourceTweet.retweeted_status != null) {
     logger.info('retweeted')
     return
   }
