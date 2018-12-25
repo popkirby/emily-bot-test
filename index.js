@@ -80,7 +80,9 @@ function main() {
   })
   search.on('data', event => {
     try {
-      botQueue.push(event)
+      setTimeout(function() {
+        botQueue.push(event)
+      }, 10 * 1000)
     } catch (e) {
       console.log(JSON.stringify(e))
     }
