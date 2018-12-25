@@ -28,11 +28,11 @@ const botQueue = async.queue(async function(sourceTweet) {
     id: sourceTweet.id_str
   })
 
-  if (
-    sourceTweet.entities.hashtags.some(hashtag =>
-      hashtag.text.includes(process.env.SUPPRESS_WORD.replace('#', ''))
-    )
-  ) {
+  const text = sourceTweet.extended_tweet
+    ? sourceTweet.extended_tweet.full_text || ''
+    : sourceTweet.text
+
+  if (text.includes(process.env.SUPPRESS_WORD)) {
     logger.info('tweet suppressed')
     return
   }
@@ -44,7 +44,6 @@ const botQueue = async.queue(async function(sourceTweet) {
 
   if (!(await checkTweetCount(sourceTweet.user.id_str))) {
     logger.info('tweet >3 times')
-
     return
   }
 
