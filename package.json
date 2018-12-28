@@ -11,6 +11,7 @@
   "dependencies": {
     "@google-cloud/vision": "^0.24.0",
     "async": "^2.6.1",
+    "date-fns": "^1.30.1",
     "dotenv": "^6.2.0",
     "fs-extra": "^7.0.1",
     "ioredis": "^4.3.0",
