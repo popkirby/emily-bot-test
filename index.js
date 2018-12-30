@@ -35,10 +35,10 @@ async function queueCreator({ sourceTweet, now }) {
     type: 'index'
   })
 
-  if (isBefore(now, START_DATE) || isAfter(now, END_DATE)) {
-    logger.info('bot is not running')
-    return 'bot is not running'
-  }
+  // if (isBefore(now, START_DATE) || isAfter(now, END_DATE)) {
+  //   logger.info('bot is not running')
+  //   return 'bot is not running'
+  // }
 
   const text = sourceTweet.extended_tweet
     ? sourceTweet.extended_tweet.full_text || ''
