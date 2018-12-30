@@ -13,7 +13,11 @@ const didVotedToEmily = require('./lib/did-voted-to-emily')
 const tweet = require('./lib/tweet')
 const createTweet = require('./lib/create-tweet')
 const checkTweetCount = require('./lib/check-tweet-count')
-const logger = require('./lib/logger').child({ type: 'index' })
+const _logger = require('./lib/logger')
+const { parse, isBefore, isAfter } = require('date-fns')
+
+const START_DATE = parse('2018-12-31T10:08:00+09:00')
+const END_DATE = parse('2019-01-01T22:08:00+09:00')
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -22,11 +26,19 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 })
 
-const botQueue = async.queue(async function(sourceTweet) {
-  logger.info({
-    screen_name: sourceTweet.user.screen_name,
-    id: sourceTweet.id_str
+async function queueCreator({ sourceTweet, now }) {
+  const screen_name = sourceTweet.user.screen_name
+
+  const logger = _logger.child({
+    screen_name: screen_name,
+    id: sourceTweet.id_str,
+    type: 'index'
   })
+
+  if (isBefore(now, START_DATE) || isAfter(now, END_DATE)) {
+    logger.info('bot is not running')
+    return 'bot is not running'
+  }
 
   const text = sourceTweet.extended_tweet
     ? sourceTweet.extended_tweet.full_text || ''
@@ -34,7 +46,7 @@ const botQueue = async.queue(async function(sourceTweet) {
 
   if (text.includes(process.env.SUPPRESS_WORD)) {
     logger.info('tweet suppressed')
-    return
+    return 'tweet suppressed'
   }
 
   if (
@@ -42,57 +54,66 @@ const botQueue = async.queue(async function(sourceTweet) {
     sourceTweet.quoted_status != null
   ) {
     logger.info('retweeted')
-    return
+    return 'retweeted'
   }
 
   if (!(await checkTweetCount(sourceTweet.user.id_str))) {
     logger.info('tweet >3 times')
-    return
+    return 'tweet >3 times'
   }
 
   let votedToEmily = false
   if (sourceTweet.entities && sourceTweet.entities.media) {
-    votedToEmily = sourceTweet.entities.media.some(
-      async entity => await didVotedToEmily(entity.media_url)
-    )
+    for (let media of sourceTweet.entities.media) {
+      if (await didVotedToEmily(media.media_url)) {
+        votedToEmily = true
+        break
+      }
+    }
   }
 
-  if (!votedToEmily) {
-    return await tweet(
-      client,
-      createTweet('failure', {
-        screen_name: sourceTweet.user.screen_name,
+  if (!text.includes('@tc_emily_proj')) {
+    if (votedToEmily) {
+      logger.info('hatch')
+      await tweet(client, {
+        ...createTweet(text, screen_name, votedToEmily, now, true),
         in_reply_to_status_id: sourceTweet.id_str
       })
-    )
+      return 'hatch'
+    } else {
+      logger.info('not reply')
+      return 'not reply'
+    }
   }
 
-  return await tweet(
-    client,
-    createTweet('success', {
-      screen_name: sourceTweet.user.screen_name,
-      in_reply_to_status_id: sourceTweet.id_str
-    })
-  )
-}, 1)
+  await tweet(client, {
+    ...createTweet(text, screen_name, votedToEmily, now),
+    in_reply_to_status_id: sourceTweet.id_str
+  })
+  logger.info('tweet')
+  return 'tweet'
+}
+
+const botQueue = async.queue(queueCreator, 1)
 
 function main() {
   const search = client.stream('statuses/filter', {
     track: process.env.HASHTAG
   })
+
   search.on('data', event => {
-    try {
-      setTimeout(function() {
-        botQueue.push(event)
-      }, 10 * 1000)
-    } catch (e) {
-      console.log(JSON.stringify(e))
-    }
+    setTimeout(function() {
+      botQueue.push({ sourceTweet: event, now: Date.now() })
+    }, 10 * 1000)
   })
 
   search.on('error', event => {
-    logger.error(event, 'search failed')
+    _logger.error(event, 'search failed')
   })
 }
 
-main()
+if (require.main === module) {
+  main()
+}
+
+module.exports = queueCreator
