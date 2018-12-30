@@ -8,31 +8,31 @@ test('create-tweet:type', t => {
   )
 
   t.deepEqual(tweets[0], {
-    image: undefined,
+    image: 'bonnou.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！仕掛け人さまの煩悩、精一杯お祓いさせていただきますね～♪良いお年をお迎えください～。'
   })
 
   t.deepEqual(tweets[1], {
-    image: undefined,
+    image: 'hansei.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！己を省みることを忘れないお心がけは、きっと次の一歩に繋がります！良いお年をお迎えください～。'
   })
 
   t.deepEqual(tweets[2], {
-    image: undefined,
+    image: 'houhu.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！胸に抱く大志へ奮励する仕掛け人さまを、私も精一杯応援させていただきます！良いお年をお迎えください～。'
   })
 
   t.deepEqual(tweets[3], {
-    image: undefined,
+    image: 'negai.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！その願い必ずや叶うように心からお祈りさせていただきますね！良いお年をお迎えください～。'
   })
 
   t.deepEqual(tweets[4], {
-    image: undefined,
+    image: 'default.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。良いお年をお迎えください～。'
   })
@@ -44,13 +44,13 @@ test('create-tweet:time', t => {
   )
 
   t.deepEqual(tweets[0], {
-    image: undefined,
+    image: 'default.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。良いお年をお迎えください～。'
   })
 
   t.deepEqual(tweets[1], {
-    image: undefined,
+    image: 'default.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜明けましておめでとうございます。御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。'
   })
@@ -62,7 +62,7 @@ test('create-tweet:vote', t => {
   )
 
   t.deepEqual(tweets[0], {
-    image: undefined,
+    image: 'default.jpg',
     text:
       '@user1 ∬(*^ヮ^)∬＜御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。良いお年をお迎えください～。'
   })

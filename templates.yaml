@@ -3,25 +3,30 @@ default:
     - text: お参りくださって嬉しいです♪
   with:
     - text: 御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。
+      image: default.jpg
 bonnou:
   without:
     - text: その煩悩、お祓いしましょう～。
   with:
     - text: 御奉納ありがとうございます！仕掛け人さまの煩悩、精一杯お祓いさせていただきますね～♪
+      image: bonnou.jpg
 hansei:
   without:
     - text: 日々の反省は成長の第一歩、ですよ♪
   with:
     - text: 御奉納ありがとうございます！己を省みることを忘れないお心がけは、きっと次の一歩に繋がります！
+      image: hansei.jpg
 houhu:
   without:
     - text: 仕掛け人さま、Be Ambitious、ですね！
   with:
     - text: 御奉納ありがとうございます！胸に抱く大志へ奮励する仕掛け人さまを、私も精一杯応援させていただきます！
+      image: houhu.jpg
 negai:
   without:
     - text: その願い、きっと叶いましょう～。
   with:
     - text: 御奉納ありがとうございます！その願い必ずや叶うように心からお祈りさせていただきますね！
+      image: negai.jpg
 hatch:
   text: 御奉納ありがとうございます！お告げ頂いた想いが届くよう、私も精一杯お祈りいたします。
