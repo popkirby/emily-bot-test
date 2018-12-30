@@ -62,7 +62,31 @@ test('queue-creator:retweet', async t => {
 test('queue-creator:tweetCount', async t => {
   const queueCreator = proxyquire.noCallThru().load('../index', {
     Twitter: function() {},
-    './lib/did-voted-to-emily': async function() {},
+    './lib/did-voted-to-emily': async function() {
+      return true
+    },
+    './lib/check-tweet-count': async function() {
+      return false
+    }
+  })
+
+  t.true(
+    (await queueCreator({
+      sourceTweet: {
+        text: '@tc_emily_proj',
+        user: { screen_name: 'user1' }
+      },
+      now: parse('2018-12-31T12:00:00+09:00')
+    })) === 'tweet >3 times'
+  )
+})
+
+test('queue-creator:tweetCount:2', async t => {
+  const queueCreator = proxyquire.noCallThru().load('../index', {
+    Twitter: function() {},
+    './lib/did-voted-to-emily': async function() {
+      return true
+    },
     './lib/check-tweet-count': async function() {
       return false
     }
@@ -72,7 +96,8 @@ test('queue-creator:tweetCount', async t => {
     (await queueCreator({
       sourceTweet: {
         text: '',
-        user: { screen_name: 'user1' }
+        user: { screen_name: 'user1' },
+        entities: { media: [{ media_url: '' }] }
       },
       now: parse('2018-12-31T12:00:00+09:00')
     })) === 'tweet >3 times'
