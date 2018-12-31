@@ -100,7 +100,7 @@ test('queue-creator:tweetCount:2', async t => {
         entities: { media: [{ media_url: '' }] }
       },
       now: parse('2018-12-31T12:00:00+09:00')
-    })) === 'tweet >3 times'
+    })) === 'not reply'
   )
 })
 
@@ -124,7 +124,7 @@ test('queue-creator:hatch', async t => {
         entities: { media: [{ media_url: '' }] }
       },
       now: parse('2018-12-31T12:00:00+09:00')
-    })) === 'hatch'
+    })) === 'not reply'
   )
 })
 

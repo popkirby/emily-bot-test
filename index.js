@@ -67,7 +67,7 @@ async function queueCreator({ sourceTweet, now }) {
     }
   }
 
-  if (!text.includes('@tc_emily_proj') && !votedToEmily) {
+  if (!text.includes('@tc_emily_proj')) {
     logger.info('not reply')
     return 'not reply'
   }
@@ -75,15 +75,6 @@ async function queueCreator({ sourceTweet, now }) {
   if (!(await checkTweetCount(sourceTweet.user.id_str))) {
     logger.info('tweet >3 times')
     return 'tweet >3 times'
-  }
-
-  if (!text.includes('@tc_emily_proj') && votedToEmily) {
-    logger.info('hatch')
-    await tweet(client, {
-      ...createTweet(text, screen_name, votedToEmily, now, true),
-      in_reply_to_status_id: sourceTweet.id_str
-    })
-    return 'hatch'
   }
 
   await tweet(client, {
