@@ -74,7 +74,8 @@ test('queue-creator:tweetCount', async t => {
     (await queueCreator({
       sourceTweet: {
         text: '@tc_emily_proj',
-        user: { screen_name: 'user1' }
+        user: { screen_name: 'user1' },
+        entities: { media: [{ media_url: '' }] }
       },
       now: parse('2018-12-31T12:00:00+09:00')
     })) === 'tweet >3 times'
@@ -104,11 +105,11 @@ test('queue-creator:tweetCount:2', async t => {
   )
 })
 
-test('queue-creator:hatch', async t => {
+test('queue-creator:not-vote', async t => {
   const queueCreator = proxyquire.noCallThru().load('../index', {
     Twitter: new TwitterStub(),
     './lib/did-voted-to-emily': async function() {
-      return true
+      return false
     },
     './lib/check-tweet-count': async function() {
       return true
@@ -124,7 +125,7 @@ test('queue-creator:hatch', async t => {
         entities: { media: [{ media_url: '' }] }
       },
       now: parse('2018-12-31T12:00:00+09:00')
-    })) === 'not reply'
+    })) === 'not vote'
   )
 })
 
@@ -132,7 +133,7 @@ test('queue-creator:not-reply', async t => {
   const queueCreator = proxyquire.noCallThru().load('../index', {
     Twitter: new TwitterStub(),
     './lib/did-voted-to-emily': async function() {
-      return false
+      return true
     },
     './lib/check-tweet-count': async function() {
       return true

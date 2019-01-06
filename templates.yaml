@@ -1,32 +1,37 @@
-default:
-  without:
-    - text: お参りくださって嬉しいです♪
-  with:
-    - text: 御奉納ありがとうございます！仕掛け人さまのお気持ちに負けないよう、私も精一杯お祈りさせていただきます。
-      image: default.jpg
-bonnou:
-  without:
-    - text: その煩悩、お祓いしましょう～。
-  with:
-    - text: 御奉納ありがとうございます！仕掛け人さまの煩悩、精一杯お祓いさせていただきますね～♪
-      image: bonnou.jpg
-hansei:
-  without:
-    - text: 日々の反省は成長の第一歩、ですよ♪
-  with:
-    - text: 御奉納ありがとうございます！己を省みることを忘れないお心がけは、きっと次の一歩に繋がります！
-      image: hansei.jpg
-houhu:
-  without:
-    - text: 仕掛け人さま、Be Ambitious、ですね！
-  with:
-    - text: 御奉納ありがとうございます！胸に抱く大志へ奮励する仕掛け人さまを、私も精一杯応援させていただきます！
-      image: houhu.jpg
-negai:
-  without:
-    - text: その願い、きっと叶いましょう～。
-  with:
-    - text: 御奉納ありがとうございます！その願い必ずや叶うように心からお祈りさせていただきますね！
-      image: negai.jpg
-hatch:
-  text: 御奉納ありがとうございます！お告げ頂いた想いが届くよう、私も精一杯お祈りいたします。
+templates:
+  - text: 抹茶乳製品巻き焼き洋菓子です！
+    image: image0.jpg
+  - text: 大好きな日本のお菓子、どら焼きです！
+    image: image0-1.jpg
+  - text: 抹茶味乳脂椀焼き菓子です！
+    image: image0-2.jpg
+  - text: 私の祖国のお菓子、小麦牛乳英国茶請け焼き菓子です！
+    image: image0-3.jpg
+  - text: 私の祖国のお菓子、女王蒸し餅果物挟み焼き菓子です！
+    image: image0-4.jpg
+  - text: 大好きな日本のお菓子、いちご大福です！
+    image: image0-5.jpg
+  - text: 抹茶包み焼き生地焼き菓子です！
+    image: image0-6.jpg
+  - text: 私の祖国のお菓子、干し果物の包み焼きです！
+    image: image0-7.jpg
+  - text: 大好きな日本のお菓子、お団子です！
+    image: image0-8.jpg
+  - text: 紗代子さんおすすめの抹茶たい焼きです！
+    image: image0-9.jpg
+  - text: 茜さんおすすめの卵牛乳蒸菓子です！
+    image: image0-10.jpg
+  - text: 絹焼き菓子です！
+    image: image0-11.jpg
+  - text: 林檎包み焼き菓子です！
+    image: image0-12.jpg
+  - text: 大好きな日本のお菓子、栗羊羹です！
+    image: image0-13.jpg
+  - text: え、エミリー印の小麦蒸し餅円盤焼き菓子でしゅ！！
+    image: image0-14.jpg
+  - text: 私の祖国のお菓子、牛酪砂糖小焼き菓子です！
+    image: image0-15.jpg
+  - text: え、エミリー牛酪砂糖小焼き菓子でしゅ！！
+    image: image0-16.jpg
+  - text: お汁粉です！
+    image: image0-17.jpg

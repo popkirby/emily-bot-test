@@ -14,10 +14,6 @@ const tweet = require('./lib/tweet')
 const createTweet = require('./lib/create-tweet')
 const checkTweetCount = require('./lib/check-tweet-count')
 const _logger = require('./lib/logger')
-const { parse, isBefore, isAfter } = require('date-fns')
-
-const START_DATE = parse('2018-12-31T10:08:00+09:00')
-const END_DATE = parse('2019-01-01T22:08:00+09:00')
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -26,7 +22,7 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 })
 
-async function queueCreator({ sourceTweet, now }) {
+async function queueCreator({ sourceTweet }) {
   const screen_name = sourceTweet.user.screen_name
 
   const logger = _logger.child({
@@ -34,11 +30,6 @@ async function queueCreator({ sourceTweet, now }) {
     id: sourceTweet.id_str,
     type: 'index'
   })
-
-  // if (isBefore(now, START_DATE) || isAfter(now, END_DATE)) {
-  //   logger.info('bot is not running')
-  //   return 'bot is not running'
-  // }
 
   const text = sourceTweet.extended_tweet
     ? sourceTweet.extended_tweet.full_text || ''
@@ -67,6 +58,11 @@ async function queueCreator({ sourceTweet, now }) {
     }
   }
 
+  if (!votedToEmily) {
+    logger.info('not vote')
+    return 'not vote'
+  }
+
   if (!text.includes('@tc_emily_proj')) {
     logger.info('not reply')
     return 'not reply'
@@ -78,7 +74,7 @@ async function queueCreator({ sourceTweet, now }) {
   }
 
   await tweet(client, {
-    ...createTweet(text, screen_name, votedToEmily, now),
+    ...createTweet(text, screen_name),
     in_reply_to_status_id: sourceTweet.id_str
   })
   logger.info('tweet')
@@ -94,7 +90,7 @@ function main() {
 
   search.on('data', event => {
     setTimeout(function() {
-      botQueue.push({ sourceTweet: event, now: Date.now() })
+      botQueue.push({ sourceTweet: event })
     }, 10 * 1000)
   })
 
